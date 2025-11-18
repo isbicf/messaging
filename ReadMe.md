@@ -14,6 +14,11 @@ by Celery workers, and results are returned through the API.
    python --version
    ```
 
+## Source download
+```
+git clone https://github.com/isbicf/messaging.git
+```
+
 ## Virtual environment
 ```
 # Create virtual environment

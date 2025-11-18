@@ -1,0 +1,28 @@
+services:
+  api:
+    build: .
+    container_name: messaging_api
+    command: sh -c "python init_db.py && python -m messaging.app"
+    ports:
+      - '5000:5000'
+    depends_on:
+      - redis
+    environment:
+      CELERY_BROKER_URL: 'redis://redis:6379/0'
+      CELERY_RESULT_BACKEND: 'redis://redis:6379/0'
+
+  worker:
+    build: .
+    container_name: messaging_worker
+    command: celery -A messaging.task.worker worker --loglevel=info
+    depends_on:
+      - redis
+    environment:
+      CELERY_BROKER_URL: 'redis://redis:6379/0'
+      CELERY_RESULT_BACKEND: 'redis://redis:6379/0'
+
+  redis:
+    image: redis:7.2
+    container_name: redis_broker
+    ports:
+      - '6379:6379'
