@@ -2,6 +2,8 @@ from flask import Flask
 from messaging.config import Config
 from messaging.api.message import message_bp
 
+print(">>> USING SQLITE:", Config.DB_PATH)
+
 
 def create_app():
     app = Flask(__name__)

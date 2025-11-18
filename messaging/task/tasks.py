@@ -1,48 +1,40 @@
-from datetime import datetime, UTC
-
-from messaging.task.worker import worker
+import time
+import random
+from celery import Celery
+from messaging.config import Config
 from messaging.db.conn import SessionLocal
 from messaging.db.message import Message
 
+celery_app = Celery(
+    'worker',
+    broker=Config.CELERY_BROKER_URL,
+    backend=Config.CELERY_RESULT_BACKEND
+)
 
-@worker.task(name='process_message')
-def process_message(message_id: int):
+@celery_app.task(name='process_message')
+def process_message(message_id):
     session = SessionLocal()
 
     try:
-        # Fetch the record
         msg = session.get(Message, message_id)
         if not msg:
-            return {'error': f'Message {message_id} not found'}
+            print(f'No message found: {message_id}')
+            return
 
-        # Simulate processing work
-        processed_value = f'Processed at {datetime.now(UTC).isoformat()}'
+        # Random delay between 1–3 seconds. Make pending status visible (only for testing)
+        delay_seconds = random.randint(1, 3)
+        print(f'Processing message {message_id} (delay: {delay_seconds}s)')
+        time.sleep(delay_seconds)
 
-        # Update message
         msg.status = 'completed'
-        msg.result = processed_value
-        msg.updated_at = datetime.now(UTC)
-
+        msg.result = {
+            'processed': True,
+            'delay': delay_seconds
+        }
         session.commit()
 
-        return {
-            'id': msg.id,
-            'status': msg.status,
-            'result': msg.result
-        }
-
-    except Exception as e:
-        session.rollback()
-
-        # Try to mark the message as failed
-        msg = session.get(Message, message_id)
-        if msg:
-            msg.status = 'failed'
-            msg.result = str(e)
-            msg.updated_at = datetime.now(UTC)
-            session.commit()
-
-        return {'error': str(e)}
+        print(f'Completed message {message_id}')
+        return msg.id
 
     finally:
         session.close()

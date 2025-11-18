@@ -2,7 +2,7 @@ import traceback
 from flask import Blueprint, request, jsonify
 from messaging.db.conn import SessionLocal
 from messaging.db.message import Message
-from messaging.task.tasks import process_message   # <-- top-level import is SAFE
+from messaging.task.tasks import process_message
 
 message_bp = Blueprint('message_bp', __name__)
 
