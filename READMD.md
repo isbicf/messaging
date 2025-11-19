@@ -22,12 +22,22 @@ git clone https://github.com/isbicf/messaging.git
 
 ## 3. Create a Virtual Environment
 ```
+# Create
 python -m venv venv
+
+# Activate
+.\venv\Scripts\activate
 ```
 
 ## 4. Install Dependencies
 ```
+# Activate virtual env
+.\venv\Scripts\activate
+
+# Upgrade pip
 python -m pip install --upgrade pip
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -66,7 +76,7 @@ pip install -r requirements.txt
    ```
    http://localhost:5000/messages?status=pending
    ```
-   <img src="./images/messages_by_status.png" width="500">
+   <img src="./images/messages_by_status.png" width="500">****
 7. Test GET /messages/<id>
    ```
    http://localhost:5000/messages/9

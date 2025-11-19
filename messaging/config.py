@@ -1,7 +1,9 @@
 import os
 
+
+# todo; Set by env variable or config.yml.
 class Config:
-    SECRET_KEY = 'dev-secret-key'     # Temporary Flask secret. todo; Set by env variable or config.yml.
+    SECRET_KEY = 'dev-secret-key'     # Temporary Flask secret
 
     DB_PATH = '/app/message.db'
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{DB_PATH}'
