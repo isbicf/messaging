@@ -8,9 +8,7 @@ print(">>> USING SQLITE:", Config.DB_PATH)
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
-    # Register API routes
-    app.register_blueprint(message_bp, url_prefix='/messages')
+    app.register_blueprint(message_bp, url_prefix='/messages')  # Message API routes
 
     @app.route('/health', methods=['GET'])
     def health():

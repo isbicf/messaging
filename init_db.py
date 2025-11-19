@@ -1,6 +1,6 @@
 from messaging.db.base import Base
 from messaging.db.conn import engine
-from messaging.db.message import Message
+from messaging.db.message import Message    # DON'T DELETE. Needed for table creation
 
 
 def init_db():

@@ -1,8 +1,6 @@
-import time
-import random
 from celery import Celery
 from messaging.config import Config
-from messaging.db.conn import SessionLocal
+from messaging.db.conn import LocalSession
 from messaging.db.message import Message
 
 celery_app = Celery(
@@ -11,9 +9,10 @@ celery_app = Celery(
     backend=Config.CELERY_RESULT_BACKEND
 )
 
+
 @celery_app.task(name='process_message')
 def process_message(message_id):
-    session = SessionLocal()
+    session = LocalSession()
 
     try:
         msg = session.get(Message, message_id)
@@ -21,8 +20,10 @@ def process_message(message_id):
             print(f'No message found: {message_id}')
             return
 
-        # Random delay between 1–3 seconds. Make pending status visible (only for testing)
-        delay_seconds = random.randint(1, 3)
+        # Only for testing. Make pending status visible
+        import time
+        import random
+        delay_seconds = random.randint(1, 10)
         print(f'Processing message {message_id} (delay: {delay_seconds}s)')
         time.sleep(delay_seconds)
 
