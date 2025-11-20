@@ -19,14 +19,19 @@ def create_message():
 
     try:
         msg = service.create(data.get('payload', '{}'))     # Save message
-        process_message.delay(msg.id)   # Enqueue background task
-        return jsonify({'id': msg.id, 'status': msg.status}), 201
     except Exception as e:
         session.rollback()
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
     finally:
         session.close()
+
+    try:
+        process_message.delay(msg.id)
+    except Exception as queue_error:
+        print(f'Warning: Celery queue unavailable: {queue_error}')
+
+    return jsonify({'id': msg.id, 'status': msg.status}), 201
 
 
 # GET /messages
