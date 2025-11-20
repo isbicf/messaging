@@ -51,6 +51,7 @@ pip install -r requirements.txt
    ```
 
 # Testing
+## Tesing with Docker
 1. Start Docker Desktop
 2. Build containers
    ```
@@ -87,3 +88,11 @@ pip install -r requirements.txt
    http://localhost:5000/messages/stats
    ```
    <img src="./images/message_status.png" width="500">
+
+## pytest
+```
+# Activate virtual env
+.\venv\Scripts\activate
+
+pytest -q
+```
