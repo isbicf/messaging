@@ -43,7 +43,7 @@ pip install -r requirements.txt
 
 ## 5. Install Docker
 1. Go to [Docker Desktop Download](https://www.docker.com/products/docker-desktop/)
-2. Download installer for **Windows – AMD64** vresion and install
+2. Download installer for **Windows – AMD64** version and install
 3. Confirm installation
    ```
    docker --version
@@ -63,27 +63,27 @@ pip install -r requirements.txt
    docker-compose up
    ```
    <img src="./images/docker-compose_up.png" width="1000">
-4. Test POST /messages
+4. Test `POST /messages`
    ```
    python generate_messages.py
    ```
    <img src="./images/generate_messages.py.png" width="1000">
-5. Test GET /messages
+5. Test `GET /messages`
    ```
    http://localhost:5000/messages
    ```
    <img src="./images/messages.png" width="500">
-6. Test GET /messages?status 
+6. Test `GET /messages?status` 
    ```
    http://localhost:5000/messages?status=pending
    ```
    <img src="./images/messages_by_status.png" width="500">****
-7. Test GET /messages/<id>
+7. Test `GET /messages/<id>`
    ```
    http://localhost:5000/messages/9
    ```
    <img src="./images/message_by_id.png" width="500">
-8. Test GET /messages/stats
+8. Test `GET /messages/stats`
    ```
    http://localhost:5000/messages/stats
    ```
