@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    container_name: messaging_app
+    command: >
+      sh -c 'python init_db.py &&
+             celery -A messaging.task.tasks:celery_app worker --loglevel=info &
+             python -m messaging.app'
+    ports:
+      - '5000:5000'
+    environment:
+      CELERY_BROKER_URL: 'redis://redis:6379/0'
+      CELERY_RESULT_BACKEND: 'redis://redis:6379/0'
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.2
+    container_name: redis_broker
+    ports:
+      - '6379:6379'
